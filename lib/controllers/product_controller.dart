@@ -13,13 +13,10 @@ class ProductController extends GetxController {
     super.onInit();
     fetchProducts();
   }
-
   void fetchProducts() async {
     try {
       isLoading.value = true;
-
       final data = await apiService.getallProducts();
-
       products.assignAll(
         data.map((e) => Product.fromJson(e)).toList(),
       );
@@ -29,22 +26,23 @@ class ProductController extends GetxController {
       isLoading.value = false;
     }
   }
+
   Future<void> addProduct(Product product) async {
     try {
       final res = await apiService.createallProducts(product.toJson());
       products.insert(0, Product.fromJson(res));
-      products.refresh();
       Get.snackbar("Success", "Product Added");
-    }
-    catch (e) {
+    } catch (e) {
       Get.snackbar("Failed", "Add Failed");
     }
   }
+
   Future<void> updateProduct(int index, Product product) async {
     products[index] = product;
-    products.refresh();
+    products.refresh(); // Needed when replacing object
     Get.snackbar("Success", "Updated Successfully");
   }
+
   Future<void> deleteProduct(int index) async {
     products.removeAt(index);
     Get.snackbar("Success", "Deleted Successfully");

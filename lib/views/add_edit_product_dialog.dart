@@ -48,7 +48,6 @@ class AddEditProductDialog {
                 Get.snackbar("Error", "Please fill all fields");
                 return;
               }
-
               if (product == null) {
                 final newProduct = Product(
                   title: titleController.text,
